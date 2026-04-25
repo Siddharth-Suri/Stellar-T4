@@ -265,6 +265,28 @@ a:hover {
 }
 [data-theme='dark'] .wallet-bar__error-link { color: #fff; }
 
+/* Vote Balance pill */
+.vote-balance {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--accent-light);
+  border: 1px solid var(--accent);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent-dark);
+  transition: all var(--transition);
+}
+[data-theme='dark'] .vote-balance {
+  color: var(--accent);
+  box-shadow: 0 0 8px rgba(92, 111, 255, 0.2);
+}
+.vote-balance__icon { font-size: 14px; }
+.vote-balance__label { font-size: 11px; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.5px; }
+
+
 /* Buttons */
 .btn {
   display: inline-flex;
@@ -720,14 +742,65 @@ a:hover {
   from { opacity: 0; } to { opacity: 1; }
 }
 
+/* ═══════════════════════════════════════════
+   RESPONSIVE / MOBILE STYLES
+   ═══════════════════════════════════════════ */
+
+/* ── Tablet (≤ 768px) ─────────────────────────────────────── */
 @media (max-width: 768px) {
-  .app__layout {
-    grid-template-columns: 1fr;
-  }
+  .app__layout { grid-template-columns: 1fr; }
+  .app__body { padding: 24px 16px 60px; }
+  .wallet-bar { padding: 0 16px; min-height: 60px; gap: 10px; }
+  .wallet-bar__title { font-size: 15px; }
+  .wallet-bar__network { font-size: 10px; padding: 2px 8px; }
+  .poll-header h2 { font-size: 22px; }
+  .poll-item__header { padding: 18px 20px !important; }
+  .poll-item__results { padding: 16px 20px !important; }
+  .poll-item__actions { padding: 0 20px 20px !important; }
+  .tx-status { margin: 0 0 16px; }
 }
+
+/* ── Mobile (≤ 480px) ─────────────────────────────────────── */
 @media (max-width: 480px) {
+  .wallet-bar {
+    flex-wrap: wrap;
+    padding: 10px 14px;
+    min-height: unset;
+    row-gap: 8px;
+  }
+  .wallet-bar__brand { flex: 1 0 auto; }
+  .wallet-bar__actions { width: 100%; justify-content: space-between; }
+  .wallet-bar__address { font-size: 12px; padding: 5px 10px; }
+
   .poll-card__buttons { flex-direction: column; }
+  .btn--vote { width: 100%; padding: 16px; font-size: 16px; }
+  .poll-item__actions .btn--ghost { width: 100%; justify-content: center; margin-top: 12px; }
+
+  /* Modal slides up from bottom on mobile */
+  .modal-overlay { align-items: flex-end; }
+  .modal {
+    width: 100%;
+    max-width: 100%;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    padding: 24px 20px 32px;
+  }
+
+  .poll-item__question { font-size: 16px !important; }
+  .countdown-block { min-width: 52px; padding: 8px 12px; }
+  .countdown-value { font-size: 20px; }
+  .app__footer { padding: 16px; font-size: 12px; }
 }
+
+/* ── Very small (≤ 360px) ──────────────────────────────────── */
+@media (max-width: 360px) {
+  body { font-size: 13px; }
+  .wallet-bar__title { font-size: 13px; }
+  .wallet-bar__network { display: none; }
+  .poll-header h2 { font-size: 18px; }
+  .btn { font-size: 13px; padding: 9px 16px; }
+}
+
 
 /* Modals */
 .modal-overlay {

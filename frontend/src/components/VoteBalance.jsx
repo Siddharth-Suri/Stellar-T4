@@ -1,9 +1,16 @@
 // src/components/VoteBalance.jsx
 // Shows how many VOTE reward tokens the connected wallet has earned.
-// The balance is fetched by calling VoteToken::balance(address) via
-// a read-only Soroban RPC simulation (no signing required).
+// Reads VoteToken::balance(address) via a read-only Soroban RPC simulation.
 import React, { useEffect, useState } from "react";
-import { SorobanRpc, Contract, Networks, nativeToScVal, scValToNative, xdr } from "@stellar/stellar-sdk";
+import {
+  SorobanRpc,
+  Contract,
+  Networks,
+  nativeToScVal,
+  scValToNative,
+  TransactionBuilder,
+  Account,
+} from "@stellar/stellar-sdk";
 import { SOROBAN_RPC_URL, REWARD_TOKEN_ID } from "../constants";
 
 const DECIMALS = 7;
@@ -31,28 +38,21 @@ export function VoteBalance({ publicKey }) {
         const accountArg = nativeToScVal(publicKey, { type: "address" });
         const operation = contract.call("balance", accountArg);
 
-        const tx = {
-          operations: [operation],
-        };
+        // Build a dummy account for simulation (sequence doesn't matter for reads)
+        const dummyAccount = new Account(publicKey, "0");
+        const tx = new TransactionBuilder(dummyAccount, {
+          fee: "100",
+          networkPassphrase: Networks.TESTNET,
+        })
+          .addOperation(operation)
+          .setTimeout(30)
+          .build();
 
-        // Use simulateTransaction for a read-only call
-        const sim = await server.simulateTransaction(
-          // Build a minimal transaction envelope – only the operation matters for simulation
-          new (await import("@stellar/stellar-sdk")).TransactionBuilder(
-            { accountId: () => publicKey, sequence: () => "0", incrementSequenceNumber: () => {} },
-            { fee: "100", networkPassphrase: Networks.TESTNET }
-          )
-            .addOperation(operation)
-            .setTimeout(30)
-            .build()
-        );
+        const sim = await server.simulateTransaction(tx);
 
-        if (SorobanRpc.Api.isSimulationSuccess(sim)) {
-          const resultVal = sim.result?.retval;
-          if (resultVal) {
-            const native = scValToNative(resultVal);
-            if (!cancelled) setBalance(native);
-          }
+        if (SorobanRpc.Api.isSimulationSuccess(sim) && sim.result?.retval) {
+          const native = scValToNative(sim.result.retval);
+          if (!cancelled) setBalance(native);
         }
       } catch {
         // Silently fail — balance display is non-critical

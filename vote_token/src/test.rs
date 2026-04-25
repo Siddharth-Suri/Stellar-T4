@@ -7,7 +7,7 @@ use soroban_sdk::{testutils::Address as _, Address, Env};
 fn setup() -> (Env, VoteTokenClient<'static>, Address, Address) {
     let env = Env::default();
     env.mock_all_auths();
-    let contract_id = env.register_contract(None, VoteToken);
+    let contract_id = env.register(VoteToken, ());
     let client = VoteTokenClient::new(&env, &contract_id);
     let admin = Address::generate(&env);
     let user = Address::generate(&env);

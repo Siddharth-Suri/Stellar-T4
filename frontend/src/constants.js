@@ -1,5 +1,6 @@
 // src/constants.js
 export const CONTRACT_ID = import.meta.env.VITE_CONTRACT_ID || "";
+export const REWARD_TOKEN_ID = import.meta.env.VITE_REWARD_TOKEN_ID || "";
 export const SOROBAN_RPC_URL =
   import.meta.env.VITE_SOROBAN_RPC_URL ||
   "https://soroban-testnet.stellar.org";

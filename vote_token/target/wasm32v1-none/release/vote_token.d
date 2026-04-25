@@ -1,0 +1,1 @@
+/Users/siddharthsuri/Desktop/projects/Stellar/T4\ -\ Live\ pool/vote_token/target/wasm32v1-none/release/vote_token.wasm: /Users/siddharthsuri/Desktop/projects/Stellar/T4\ -\ Live\ pool/vote_token/src/lib.rs

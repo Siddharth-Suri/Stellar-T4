@@ -1,14 +1,9 @@
+#![no_std]
 /// VOTE Token — a minimal Soroban SEP-41 / SAC-compatible fungible token.
 ///
-/// This contract is deployed independently and its address is registered
-/// in the PollContract via `set_reward_token(token_id)`.
-///
-/// The PollContract is set as the sole admin/minter; it calls
-/// `mint(voter, amount)` every time a user casts a vote.
-///
-/// Supply is uncapped; tokens are non-transferable by design for
-/// testnet demos (transfer is enabled to allow wallet display).
-#![no_std]
+/// Deployed independently; its address is registered in PollContract via
+/// `set_reward_token(token_id)`. PollContract is the sole admin/minter,
+/// calling `mint(admin, voter, amount)` on every vote cast.
 use soroban_sdk::{
     contract, contractimpl, contracttype, symbol_short,
     Address, Env, String,
@@ -69,6 +64,7 @@ impl VoteToken {
         env.storage().instance().set(&DataKey::Admin, &new_admin);
     }
 
+    /// Returns the current admin address.
     pub fn admin(env: Env) -> Address {
         env.storage()
             .instance()
@@ -78,18 +74,22 @@ impl VoteToken {
 
     // ── SEP-41 interface ───────────────────────────────────────
 
+    /// Returns the token name.
     pub fn name(_env: Env) -> String {
         String::from_str(&_env, TOKEN_NAME)
     }
 
+    /// Returns the token symbol.
     pub fn symbol(_env: Env) -> String {
         String::from_str(&_env, TOKEN_SYMBOL)
     }
 
+    /// Returns the number of decimal places (7).
     pub fn decimals(_env: Env) -> u32 {
         TOKEN_DECIMALS
     }
 
+    /// Returns total tokens in circulation.
     pub fn total_supply(env: Env) -> i128 {
         env.storage()
             .instance()
@@ -97,6 +97,7 @@ impl VoteToken {
             .unwrap_or(0)
     }
 
+    /// Returns the VOTE token balance for `account`.
     pub fn balance(env: Env, account: Address) -> i128 {
         env.storage()
             .instance()
