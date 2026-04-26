@@ -14,7 +14,7 @@ export function CreatePollModal({ isOpen, onClose, onCreate, txStatus }) {
       await onCreate(question);
       setQuestion("");
       onClose(); // Close on success
-    } catch (err) {
+    } catch (_err) {
       // Error handled by hook, stays open
     }
   };
