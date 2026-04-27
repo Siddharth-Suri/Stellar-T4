@@ -7,7 +7,7 @@ export function usePoll(publicKey, signTransaction) {
     const cached = localStorage.getItem("poll_list");
     return cached ? JSON.parse(cached) : [];
   });
-  const [loadingPolls, setLoadingPolls] = useState(!polls.length);
+  const [loadingPolls, setLoadingPolls] = useState(true);
 
   // Transaction state
   const [txStatus, setTxStatus] = useState(TX_STATUS.IDLE);
@@ -20,9 +20,11 @@ export function usePoll(publicKey, signTransaction) {
     setTxError(null);
   }, []);
 
-  const loadPolls = useCallback(async () => {
+  // loadPolls is intentionally stable (no deps) to avoid stale closures.
+  // bust=true clears localStorage so stale data never masks a fresh fetch.
+  const loadPolls = useCallback(async ({ bust = false } = {}) => {
     try {
-      if (!polls.length) setLoadingPolls(true);
+      if (bust) localStorage.removeItem("poll_list");
       const data = await fetchPolls();
       setPolls(data);
       localStorage.setItem("poll_list", JSON.stringify(data));
@@ -31,9 +33,9 @@ export function usePoll(publicKey, signTransaction) {
     } finally {
       setLoadingPolls(false);
     }
-  }, [polls.length]);
+  }, []); // stable — no dependencies
 
-  // Initial load and polling
+  // Initial load and 5-second polling
   useEffect(() => {
     loadPolls();
     const intervalId = setInterval(loadPolls, 5000);
@@ -56,8 +58,8 @@ export function usePoll(publicKey, signTransaction) {
       // Track successful vote in localStorage
       localStorage.setItem(`voted_${pollId}_${publicKey}`, "true");
 
-      // Refresh polls
-      await loadPolls();
+      // Refresh polls — bust cache to avoid showing stale data
+      await loadPolls({ bust: true });
     } catch (err) {
       setTxStatus(TX_STATUS.ERROR);
       setTxError({
@@ -80,7 +82,8 @@ export function usePoll(publicKey, signTransaction) {
       setTxStatus(TX_STATUS.SUCCESS);
       setTxHash(result.hash);
       
-      await loadPolls();
+      // Bust cache so the new poll appears immediately
+      await loadPolls({ bust: true });
     } catch (err) {
       setTxStatus(TX_STATUS.ERROR);
       setTxError({
@@ -105,7 +108,7 @@ export function usePoll(publicKey, signTransaction) {
       setTxStatus(TX_STATUS.SUCCESS);
       setTxHash(result.hash);
       
-      await loadPolls();
+      await loadPolls({ bust: true });
     } catch (err) {
       setTxStatus(TX_STATUS.ERROR);
       setTxError({
