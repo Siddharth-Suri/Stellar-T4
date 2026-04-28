@@ -347,9 +347,20 @@ function parseScVal(buf, ctx) {
     case 19: { // SCV_ADDRESS
       const addrType = readU32(buf, ctx.offset);
       ctx.offset += 4;
-      const keyBytes = buf.slice(ctx.offset, ctx.offset + 32);
-      ctx.offset += 32;
-      return addrType === 0 ? encodeStrKey(6 << 3, keyBytes) : encodeStrKey(2 << 3, keyBytes);
+      if (addrType === 0) {
+        // SC_ADDRESS_TYPE_ACCOUNT: AccountID = PublicKey union
+        // has an extra 4-byte PublicKeyType discriminant (KEY_TYPE_ED25519=0)
+        // before the 32-byte ed25519 key.
+        ctx.offset += 4; // skip PublicKeyType
+        const keyBytes = buf.slice(ctx.offset, ctx.offset + 32);
+        ctx.offset += 32;
+        return encodeStrKey(6 << 3, keyBytes); // G... address
+      } else {
+        // SC_ADDRESS_TYPE_CONTRACT: just a raw 32-byte hash
+        const keyBytes = buf.slice(ctx.offset, ctx.offset + 32);
+        ctx.offset += 32;
+        return encodeStrKey(2 << 3, keyBytes); // C... address
+      }
     }
     default: {
       console.warn("[parseScVal] Unknown ScVal type:", type, "at offset:", ctx.offset);
