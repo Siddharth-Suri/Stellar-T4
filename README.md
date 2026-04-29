@@ -1,40 +1,65 @@
 # Live Poll — Stellar Tier 4 (Production-Ready Advanced Contract)
 
-**Demo Video:** https://drive.google.com/file/d/1WHiRyIe6Z5AsiNmBBOtoiLF2GQHrz9fD/view?usp=sharing
+**Demo Video:** https://drive.google.com/file/d/165BQbsVrrSM_Cvv_VO5WZJhDVX-py-oZ/view?usp=sharing
 
-![App UI](./assets/app-ui.png)
+**Live Demo:** https://stellar-t4.vercel.app/
+
+## Photos
+
+![Mobile responsive view](./assets/mobile-responsive-new.png)
+![Mobile dark responsive view](./assets/app-ui-new.png)
+![Desktop light poll list](./assets/screenshot-new-01.png)
+![Create poll and wallet transaction](./assets/screenshot-new-05.png)
+![Stellar Expert transaction](./assets/screenshot-new-09.png)
+![Screenshot 2](./assets/screenshot-new-02.png)
+![Screenshot 3](./assets/screenshot-new-03.png)
+![Screenshot 4](./assets/screenshot-new-04.png)
+![Screenshot 6](./assets/screenshot-new-06.png)
+![Screenshot 7](./assets/screenshot-new-07.png)
+![Screenshot 8](./assets/screenshot-new-08.png)
 
 A production-ready on-chain polling dApp built on **Soroban** smart contracts (Stellar Testnet).  
 Connect any Stellar wallet, create polls, vote Yes or No, and earn **VOTE reward tokens** — all on-chain via real Soroban contract calls. Results update live every 5 seconds.
 
-**Live Demo:** https://live-poll-t3.vercel.app/
-
 ---
 
-## ✅ Tier 4 Deliverables
+## Tier 4 Deliverables
 
 | Requirement | Status | Details |
 |---|---|---|
-| **Inter-contract call** | ✅ | `PollContract.vote()` calls `VoteToken.mint()` via `env.invoke_contract` |
-| **Custom token deployed** | ✅ | `VoteToken` (VOTE) — custom SEP-41 fungible reward token |
-| **CI/CD running** | ✅ | GitHub Actions: Rust tests → Vitest → Production build |
-| **Mobile responsive** | ✅ | Full breakpoints at 360 / 480 / 768px |
-| **10+ meaningful commits** | ✅ | 15 commits, Apr 15–28 2026 |
-| **Production-ready contract** | ✅ | 13 Soroban tests, lint-clean, WASM optimised |
+| **Inter-contract call** | Done | `PollContract.vote()` calls `VoteToken.mint()` via `env.invoke_contract` |
+| **Custom token deployed** | Done | `VoteToken` (VOTE): `CBK4DCQ3MMDSOCSHUZCXCIJ6P2MA7A75XPYY2IPBWDDSC5UALOJHBJAP` |
+| **CI/CD running** | Done | GitHub Actions workflow linked below; Rust tests to Vitest to production build |
+| **Mobile responsive** | Done | Full breakpoints at 360 / 480 / 768px; screenshot included above |
+| **10+ meaningful commits** | Done | 21 commits, Apr 15-29 2026 |
+| **Production-ready contract** | Done | 13 Soroban tests, lint-clean, WASM optimised |
 
 ---
 
+## Submission Evidence
+
+| Item | Evidence |
+|---|---|
+| Live demo link | https://stellar-t4.vercel.app/ |
+| Mobile responsive screenshot | [`assets/mobile-responsive-new.png`](./assets/mobile-responsive-new.png) |
+| CI/CD pipeline | [GitHub Actions CI/CD](https://github.com/Siddharth-Suri/Stellar-T4/actions/workflows/ci.yml) |
+| Poll contract address | [`CBOGBWS22XEKM6VJSJJ3UDXNS5DE5GRLM5P3AYPPMS53DCJLU53FIT3K`](https://stellar.expert/explorer/testnet/contract/CBOGBWS22XEKM6VJSJJ3UDXNS5DE5GRLM5P3AYPPMS53DCJLU53FIT3K) |
+| Vote token address | [`CBK4DCQ3MMDSOCSHUZCXCIJ6P2MA7A75XPYY2IPBWDDSC5UALOJHBJAP`](https://stellar.expert/explorer/testnet/contract/CBK4DCQ3MMDSOCSHUZCXCIJ6P2MA7A75XPYY2IPBWDDSC5UALOJHBJAP) |
+| Inter-contract transaction hash | [`fabed992146a70b4ad9ed67599c34578ec9de947b6f2f4eb46a858ea0de8a16b`](https://stellar.expert/explorer/testnet/tx/fabed992146a70b4ad9ed67599c34578ec9de947b6f2f4eb46a858ea0de8a16b) |
+| Transaction screenshot | [`assets/screenshot-new-09.png`](./assets/screenshot-new-09.png) |
+| Custom token or pool | VOTE reward token on Stellar Testnet; no liquidity pool is used |
+
 ## Features
 
-- 🔗 **Wallet Connect** — Freighter, LOBSTR, and all StellarWalletsKit-supported wallets
-- ✅ **On-chain Voting** — Each vote is a real Soroban contract call
-- 🪙 **VOTE Token Rewards** — Custom fungible token minted to voters via inter-contract call
-- 📊 **Live Results** — Auto-refreshes every 5 seconds via Soroban RPC simulation
-- ⚡ **Instant Load** — localStorage cache for immediate display; fresh data in background
-- 🦴 **Skeleton Loading** — Shimmer placeholders while initial results load
-- 📱 **Mobile Responsive** — Three breakpoints, bottom-sheet modals on mobile
-- 🔴 **Error Handling** — Wallet not found, user cancelled, insufficient balance
-- 🔍 **TX Explorer** — Every successful vote links to Stellar Expert
+- **Wallet Connect** — Freighter, LOBSTR, and all StellarWalletsKit-supported wallets
+- **On-chain Voting** — Each vote is a real Soroban contract call
+- **VOTE Token Rewards** — Custom fungible token minted to voters via inter-contract call
+- **Live Results** — Auto-refreshes every 5 seconds via Soroban RPC simulation
+- **Instant Load** — localStorage cache for immediate display; fresh data in background
+- **Skeleton Loading** — Shimmer placeholders while initial results load
+- **Mobile Responsive** — Three breakpoints, bottom-sheet modals on mobile
+- **Error Handling** — Wallet not found, user cancelled, insufficient balance
+- **TX Explorer** — Every successful vote links to Stellar Expert
 
 ---
 
@@ -225,10 +250,12 @@ echo "VITE_REWARD_TOKEN_ID=$VOTE_TOKEN_ID" >> frontend/.env
 
 ## Contracts (Testnet)
 
-| Contract | Address |
+| Contract / Resource | Address / Hash |
 |----------|---------|
 | PollContract | [`CBOGBWS22XEKM6VJSJJ3UDXNS5DE5GRLM5P3AYPPMS53DCJLU53FIT3K`](https://stellar.expert/explorer/testnet/contract/CBOGBWS22XEKM6VJSJJ3UDXNS5DE5GRLM5P3AYPPMS53DCJLU53FIT3K) |
 | VoteToken (VOTE) | [`CBK4DCQ3MMDSOCSHUZCXCIJ6P2MA7A75XPYY2IPBWDDSC5UALOJHBJAP`](https://stellar.expert/explorer/testnet/contract/CBK4DCQ3MMDSOCSHUZCXCIJ6P2MA7A75XPYY2IPBWDDSC5UALOJHBJAP) |
+| Inter-contract vote transaction | [`fabed992146a70b4ad9ed67599c34578ec9de947b6f2f4eb46a858ea0de8a16b`](https://stellar.expert/explorer/testnet/tx/fabed992146a70b4ad9ed67599c34578ec9de947b6f2f4eb46a858ea0de8a16b) |
+| Custom token / pool | VOTE reward token; no pool deployed |
 
 ---
 
@@ -242,7 +269,7 @@ echo "VITE_REWARD_TOKEN_ID=$VOTE_TOKEN_ID" >> frontend/.env
 
 ---
 
-## Commit Log (April 15–28, 2026)
+## Commit Log (April 15–29, 2026)
 
 | # | Date | Message |
 |---|------|---------|
@@ -251,25 +278,19 @@ echo "VITE_REWARD_TOKEN_ID=$VOTE_TOKEN_ID" >> frontend/.env
 | 3 | Apr 16 | `feat(vote-token): implement custom VOTE reward token (SEP-41 compatible)` |
 | 4 | Apr 16 | `feat(contract): add inter-contract call to mint VOTE tokens on each vote` |
 | 5 | Apr 17 | `test(contract): expand Soroban test suite — 8 tests covering all edge cases` |
-| 6 | Apr 18 | `test(vote-token): add 5-test suite for mint, transfer, and access control` |
-| 7 | Apr 19 | `ci: add GitHub Actions workflow — contract tests, ESLint, Vitest, and build` |
-| 8 | Apr 21 | `style: implement full mobile-responsive layout (360/480/768px breakpoints)` |
-| 9 | Apr 22 | `feat(frontend): add VoteBalance component — shows VOTE token rewards in wallet bar` |
-| 10 | Apr 23 | `chore: add VITE_REWARD_TOKEN_ID env var and wire into VoteBalance` |
-| 11 | Apr 24 | `feat(frontend): add quick-create poll button to WalletBar for better UX` |
-| 12 | Apr 25 | `fix(contract): guard against double-setting reward token address` |
-| 13 | Apr 26 | `chore: update Vercel config and .env.example with reward token env var` |
-| 14 | Apr 27 | `docs: update README with T4 deliverables — inter-contract, VOTE token, CI/CD` |
-| 15 | Apr 28 | `chore: production-ready — lint clean, all tests passing, CI green` |
-
----
-
-## Gallery
-
-![Screenshot 2](./assets/screenshot-2.png)
-![Screenshot 3](./assets/screenshot-3.png)
-![Screenshot 4](./assets/screenshot-4.png)
-![Screenshot 5](./assets/screenshot-5.png)
-![Screenshot 6](./assets/screenshot-6.png)
-![Screenshot 7](./assets/screenshot-7.png)
-![Screenshot 8](./assets/screenshot-8.png)
+| 6 | Apr 17 | `test(vote-token): add 5-test suite for mint, transfer, and access control` |
+| 7 | Apr 18 | `ci: add GitHub Actions workflow — contract tests, ESLint, Vitest, and build` |
+| 8 | Apr 19 | `style: implement full mobile-responsive layout (360/480/768px breakpoints)` |
+| 9 | Apr 20 | `feat(frontend): add VoteBalance component — shows VOTE token rewards in wallet bar` |
+| 10 | Apr 21 | `chore: add VITE_REWARD_TOKEN_ID env var and wire into VoteBalance` |
+| 11 | Apr 21 | `feat(frontend): add quick-create poll button to WalletBar for better UX` |
+| 12 | Apr 22 | `fix(contract): guard against double-setting reward token address` |
+| 13 | Apr 23 | `chore: update Vercel config and .env.example with reward token env var` |
+| 14 | Apr 24 | `docs: update README with T4 deliverables — inter-contract, VOTE token, CI/CD` |
+| 15 | Apr 25 | `chore: production-ready — lint clean, all tests passing, CI green` |
+| 16 | Apr 25 | `ci: fix npm install -- use --legacy-peer-deps to match lockfile` |
+| 17 | Apr 26 | `fix(ci): resolve all ESLint errors — node_modules ignored, _-prefixed catch vars allowed` |
+| 18 | Apr 27 | `fix(frontend): refresh polls immediately after create/vote/close — bust stale cache` |
+| 19 | Apr 28 | `fix(xdr): account addresses need extra 4-byte PublicKeyType skip — fixes polls not rendering` |
+| 20 | Apr 29 | `fix(xdr): replace broken custom XDR parser with SDK xdr.ScVal.fromXDR + scValToNative` |
+| 21 | Apr 29 | `docs: update README submission evidence` |
